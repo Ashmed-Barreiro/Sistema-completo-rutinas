@@ -1,0 +1,11 @@
+# Node modules
+node_modules/
+
+# Archivos de entorno
+.env
+
+# Archivos de datos locales
+src/data/*.json
+
+# Logs
+npm-debug.log
