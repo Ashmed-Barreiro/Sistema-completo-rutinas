@@ -8,4 +8,4 @@ node_modules/
 src/data/*.json
 
 # Logs
-npm-debug.log
+npm-debug.logg
