@@ -1,14 +1,19 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
+
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=
-    , initial-scale=1.0">
-    <title>Home</title>
+    <title>Login</title>
 </head>
+
 <body>
-    <H1>Bienvenido a tu entrenador personal</H1>
-    aaa
-    
+    <h1>Iniciar sesión</h1>
+    <form action="/login" method="POST">
+        <label>Email: <input type="email" name="email" required></label><br>
+        <label>Contraseña: <input type="password" name="password" required></label><br>
+        <button type="submit">Entrar</button>
+    </form>
+    <p>¿No tienes cuenta? <a href="/register">Regístrate aquí</a></p>
 </body>
+
 </html>

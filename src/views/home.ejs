@@ -1,18 +1,22 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Inicio</title>
 </head>
+
 <body>
     <H1>Bienvenido a tu entrenador personal</H1>
     <% if (user){ %>
-<p>Hola, <%= user.username %></p>
-<a href="/rutinas.ejs"></a>
-<% } else  {%>
-    <a href="/login.ejs">Iniciar sesión</a> | <a href="/register.ejs">Resitrarse</a>
-<%}%>
-    
+        <p>Hola, <%= user.username %>
+        </p>
+        <a href="/rutinas.ejs"></a>
+        <% } else {%>
+            <a href="login">Iniciar sesión</a> | <a href="register">Resitrarse</a>
+            <%}%>
+
 </body>
+
 </html>
