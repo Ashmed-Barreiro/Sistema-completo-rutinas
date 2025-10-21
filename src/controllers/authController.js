@@ -1,6 +1,7 @@
 import fs from "fs";
 import path from "path";
 import bcrypt from "bcryptjs";
+import jwt from "jsonwebtoken";
 import { fileURLToPath } from "url";
 
 const __filename = fileURLToPath(import.meta.url);
@@ -25,9 +26,28 @@ const guardarUsuarios = (usuarios) => {
     fs.writeFileSync(usersFile, JSON.stringify(usuarios, null, 2), "utf8");
 };
 
+// Helpers
+const cryptoRandomId = () =>
+    "u_" + Math.random().toString(36).slice(2) + Date.now().toString(36);
+
+const signToken = (user) => {
+    return jwt.sign(
+        { id: user.id, username: user.username, email: user.email },
+        process.env.JWT_SECRET,
+        { expiresIn: "7d" }
+    );
+};
+
+const cookieOpts = {
+    httpOnly: true,
+    sameSite: "lax",
+    secure: process.env.NODE_ENV === "production",
+    maxAge: 1000 * 60 * 60 * 24 * 7 // 7 días
+};
+
 // Controladores
 export const mostrarRegistro = (req, res) => {
-    if (req.session.user) return res.redirect("/rutinas");
+    if (res.locals.user) return res.redirect("/rutinas");
     res.render("register");
 };
 
@@ -51,11 +71,7 @@ export const registrarUsuario = async (req, res) => {
         username,
         email,
         passwordHash: hash,
-        perfil: {
-            nombre: "",
-            edad: "",
-            objetivo: ""
-        },
+        perfil: { nombre: "", edad: "", objetivo: "" },
         rutina: {
             titulo: "Mi rutina base",
             items: [
@@ -68,17 +84,13 @@ export const registrarUsuario = async (req, res) => {
     usuarios.push(nuevo);
     guardarUsuarios(usuarios);
 
-    req.session.user = {
-        id: nuevo.id,
-        username: nuevo.username,
-        email: nuevo.email
-    };
-
+    const token = signToken(nuevo);
+    res.cookie("token", token, cookieOpts);
     res.redirect("/rutinas");
 };
 
 export const mostrarLogin = (req, res) => {
-    if (req.session.user) return res.redirect("/rutinas");
+    if (res.locals.user) return res.redirect("/rutinas");
     res.render("login");
 };
 
@@ -95,20 +107,16 @@ export const procesarLogin = async (req, res) => {
     if (!ok)
         return res.render("login", { error: "Email o contraseña incorrectos." });
 
-    req.session.user = { id: user.id, username: user.username, email: user.email };
+    const token = signToken(user);
+    res.cookie("token", token, cookieOpts);
     res.redirect("/rutinas");
 };
 
 export const logout = (req, res) => {
-    req.session.destroy(() => {
-        res.redirect("/login");
-    });
+    res.clearCookie("token");
+    res.redirect("/login");
 };
 
-// Helpers
-const cryptoRandomId = () =>
-    "u_" + Math.random().toString(36).slice(2) + Date.now().toString(36);
-
-// Export para que otros controladores puedan leer/guardar
+// Export para otros controladores
 export const _leerUsuarios = leerUsuarios;
 export const _guardarUsuarios = guardarUsuarios;

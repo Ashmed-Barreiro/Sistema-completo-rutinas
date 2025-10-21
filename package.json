@@ -1,27 +1,22 @@
 {
-  "devDependencies": {
-    "nodemon": "^3.1.10"
+  "name": "sistema_complet",
+  "version": "1.0.0",
+  "description": "Sistema de rutinas con login/registro, perfil y edición de rutinas (JWT + cookies httpOnly)",
+  "main": "src/app.js",
+  "scripts": {
+    "dev": "nodemon src/app.js"
   },
   "dependencies": {
     "bcryptjs": "^3.0.2",
-    "connect-mongo": "^5.1.0",
     "cookie-parser": "^1.4.7",
     "dotenv": "^17.2.3",
     "ejs": "^3.1.10",
     "express": "^5.1.0",
-    "express-session": "^1.18.2",
-    "method-override": "^3.0.0",
-    "mongoose": "^8.19.1"
+    "jsonwebtoken": "^9.0.2",
+    "method-override": "^3.0.0"
   },
-  "name": "sistema_complet",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "nodemon src/app.js"
+  "devDependencies": {
+    "nodemon": "^3.1.10"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC"
+  "type": "module"
 }

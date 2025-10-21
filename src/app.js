@@ -1,11 +1,15 @@
 import express from "express";
-import session from "express-session";
 import methodOverride from "method-override";
+import cookieParser from "cookie-parser";
 import path from "path";
 import { fileURLToPath } from "url";
+import dotenv from "dotenv";
 import authRoutes from "./routes/authRoutes.js";
 import rutinasRoutes from "./routes/rutinasRoutes.js";
 import profileRoutes from "./routes/profileRoutes.js";
+import { decodeUserToLocals } from "./middlewares/auth.js";
+
+dotenv.config();
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -13,30 +17,18 @@ const __dirname = path.dirname(__filename);
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-// Middleware base
-app.use(express.urlencoded({ extended: true })); // <- estaba mal escrito
+// Middlewares base
+app.use(express.urlencoded({ extended: true }));
 app.use(methodOverride("_method"));
 app.use(express.static(path.join(__dirname, "../public")));
+app.use(cookieParser());
 
-// Sesión (en memoria para desarrollo)
-app.use(
-   session({
-      secret: process.env.SESSION_SECRET || "supersecreto-dev",
-      resave: false,
-      saveUninitialized: false,
-      cookie: { maxAge: 1000 * 60 * 60 * 4 } // 4 horas
-   })
-);
+// Inyecta user (si hay token válido) en res.locals.user para las vistas
+app.use(decodeUserToLocals);
 
-// Motor de vistas
+// Vistas
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
-
-// Middleware para exponer user a las vistas
-app.use((req, res, next) => {
-   res.locals.user = req.session.user || null;
-   next();
-});
 
 // Rutas
 app.use("/", authRoutes);
@@ -45,15 +37,15 @@ app.use("/", profileRoutes);
 
 // Home
 app.get("/", (req, res) => {
-   if (req.session.user) return res.redirect("/rutinas");
+   if (res.locals.user) return res.redirect("/rutinas");
    res.render("home");
 });
 
-// 404 simple
+// 404
 app.use((req, res) => {
    res.status(404).send("Página no encontrada");
 });
 
-app.listen(PORT, () =>
-   console.log(`Servidor en http://localhost:${PORT}`)
-);
+app.listen(PORT, () => {
+   console.log(`Servidor en http://localhost:${PORT}`);
+});
