@@ -3,42 +3,57 @@ import session from "express-session";
 import methodOverride from "method-override";
 import path from "path";
 import { fileURLToPath } from "url";
-const _filename = fileURLToPath(import.meta.url);
-const _dirname = path.dirname(_filename);
+import authRoutes from "./routes/authRoutes.js";
+import rutinasRoutes from "./routes/rutinasRoutes.js";
+import profileRoutes from "./routes/profileRoutes.js";
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 const app = express();
-const PORT = 3000;
-// Creamos el intermediario Middleware
-app.use(express.urlencoded({ extender: true }));
+const PORT = process.env.PORT || 3000;
+
+// Middleware base
+app.use(express.urlencoded({ extended: true })); // <- estaba mal escrito
 app.use(methodOverride("_method"));
-app.use(express.static(path.join(_dirname, "../public")));
+app.use(express.static(path.join(__dirname, "../public")));
+
+// Sesión (en memoria para desarrollo)
+app.use(
+   session({
+      secret: process.env.SESSION_SECRET || "supersecreto-dev",
+      resave: false,
+      saveUninitialized: false,
+      cookie: { maxAge: 1000 * 60 * 60 * 4 } // 4 horas
+   })
+);
+
+// Motor de vistas
 app.set("view engine", "ejs");
-app.set("views", path.join(_dirname, "views"));
-// configuramos las sesiones
-app.use(session({
-   secret: "secreto",
-   resave: false,
-   saveUninitialized: false
-}));
+app.set("views", path.join(__dirname, "views"));
 
-// rutas 
+// Middleware para exponer user a las vistas
+app.use((req, res, next) => {
+   res.locals.user = req.session.user || null;
+   next();
+});
+
+// Rutas
+app.use("/", authRoutes);
+app.use("/", rutinasRoutes);
+app.use("/", profileRoutes);
+
+// Home
 app.get("/", (req, res) => {
-   res.render("home", { user: req.session.user });
-});
-// arrancamos el server y mostramos por consola
-// el mensaje con el enlace para comprobar que este correcto
-app.listen(PORT, () => console.log(`Servidor en http://localhost:${PORT}`))
-
-app.get("/login", (req, res) => {
-   if (!req.session.user) {
-      return res.redirect("/register");
-   }
-   res.render("rutinas/index", { user: req.session.user });
+   if (req.session.user) return res.redirect("/rutinas");
+   res.render("home");
 });
 
-app.get("/register", (req, res) => {
-   if (!req.session.user) {
-      return res.redirect("/login");
-   }
-   res.render("rutinas/index", { user: req.session.user });
+// 404 simple
+app.use((req, res) => {
+   res.status(404).send("Página no encontrada");
 });
+
+app.listen(PORT, () =>
+   console.log(`Servidor en http://localhost:${PORT}`)
+);

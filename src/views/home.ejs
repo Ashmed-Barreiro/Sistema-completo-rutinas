@@ -1,22 +1,24 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
     <title>Inicio</title>
 </head>
 
 <body>
-    <H1>Bienvenido a tu entrenador personal</H1>
-    <% if (user){ %>
+    <h1>Bienvenido a tu entrenador personal</h1>
+
+    <% if (user) { %>
         <p>Hola, <%= user.username %>
         </p>
-        <a href="/rutinas.ejs"></a>
-        <% } else {%>
-            <a href="login">Iniciar sesión</a> | <a href="register">Resitrarse</a>
-            <%}%>
-
+        <p><a href="/rutinas">Ir a mis rutinas</a></p>
+        <p><a href="/perfil">Mi perfil</a></p>
+        <p><a href="/logout">Cerrar sesión</a></p>
+        <% } else { %>
+            <p><a href="/login">Iniciar sesión</a></p>
+            <p><a href="/register">Crear cuenta</a></p>
+            <% } %>
 </body>
 
 </html>

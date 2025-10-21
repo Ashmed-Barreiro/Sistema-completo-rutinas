@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8" />
+    <title>Editar rutina</title>
+    <style>
+        .fila {
+            margin-bottom: 8px;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Editar rutina</h1>
+    <p><a href="/rutinas">Volver</a></p>
+
+    <form method="post" action="/rutinas/editar">
+        <div>
+            <label>Título</label>
+            <input name="titulo" value="<%= rutina?.titulo || 'Mi rutina' %>" />
+        </div>
+
+        <h3>Items</h3>
+        <div id="contenedor">
+            <% (rutina?.items || [{dia:"", ejercicio:""}]).forEach((it)=> { %>
+                <div class="fila">
+                    <input name="itemDia" placeholder="Día" value="<%= it.dia %>" />
+                    <input name="itemEjercicio" placeholder="Ejercicio" value="<%= it.ejercicio %>" />
+                    <button type="button" onclick="this.parentElement.remove()">Eliminar</button>
+                </div>
+                <% }) %>
+        </div>
+
+        <button type="button" onclick="addFila()">Añadir item</button>
+        <br /><br />
+        <button type="submit">Guardar</button>
+    </form>
+
+    <script>
+        function addFila() {
+            const div = document.createElement('div');
+            div.className = 'fila';
+            div.innerHTML = `
+        <input name="itemDia" placeholder="Día" />
+        <input name="itemEjercicio" placeholder="Ejercicio" />
+        <button type="button" onclick="this.parentElement.remove()">Eliminar</button>
+      `;
+            document.getElementById('contenedor').appendChild(div);
+        }
+    </script>
+</body>
+
+</html>

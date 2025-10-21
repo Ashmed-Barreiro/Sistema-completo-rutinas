@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8" />
+    <title>Mi perfil</title>
+</head>
+
+<body>
+    <h1>Perfil de <%= user.username %>
+    </h1>
+    <p><a href="/rutinas">Mis rutinas</a> | <a href="/logout">Cerrar sesión</a></p>
+
+    <h2>Datos de cuenta</h2>
+    <form method="post" action="/perfil">
+        <div>
+            <label>Usuario</label>
+            <input name="username" value="<%= user.username %>" />
+        </div>
+        <div>
+            <label>Email</label>
+            <input name="email" type="email" value="<%= user.email %>" />
+        </div>
+        <div>
+            <label>Nueva contraseña (opcional)</label>
+            <input name="password" type="password" minlength="6" />
+        </div>
+
+        <h2>Perfil</h2>
+        <div>
+            <label>Nombre</label>
+            <input name="nombre" value="<%= perfil?.nombre || '' %>" />
+        </div>
+        <div>
+            <label>Edad</label>
+            <input name="edad" value="<%= perfil?.edad || '' %>" />
+        </div>
+        <div>
+            <label>Objetivo</label>
+            <input name="objetivo" value="<%= perfil?.objetivo || '' %>" />
+        </div>
+
+        <br />
+        <button type="submit">Guardar cambios</button>
+    </form>
+</body>
+
+</html>
