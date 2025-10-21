@@ -19,7 +19,7 @@ const cookieOpts = {
 export const verPerfil = (req, res) => {
     const usuarios = _leerUsuarios();
     const user = usuarios.find((u) => u.id === req.user.id);
-    res.render("perfil", { perfil: user?.perfil || { nombre: "", edad: "", objetivo: "" } });
+    res.render("perfil", { perfil: user.perfil || { nombre: "", edad: "", objetivo: "" } });
 };
 
 export const actualizarPerfil = async (req, res) => {

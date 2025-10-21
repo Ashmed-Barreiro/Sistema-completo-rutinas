@@ -3,7 +3,11 @@ import { _leerUsuarios, _guardarUsuarios } from "./authController.js";
 export const verRutinas = (req, res) => {
     const usuarios = _leerUsuarios();
     const user = usuarios.find((u) => u.id === req.user.id);
-    res.render("rutinas/index", { rutina: user?.rutina || null });
+     res.render("rutinas/index", {
+        user,               // usuario completo
+        perfil: user.perfil || null,   // perfil opcional
+        rutina: user.rutina || null    // rutina opcional
+    });
 };
 
 export const mostrarEditarRutina = (req, res) => {

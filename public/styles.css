@@ -1,0 +1,130 @@
+/* Reset básico */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f4f7f8;
+    color: #333;
+    line-height: 1.6;
+    padding: 20px;
+}
+
+/* Enlaces */
+a {
+    color: #0077cc;
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+/* Cabecera de la página */
+h1 {
+    text-align: center;
+    margin-bottom: 20px;
+    color: #222;
+}
+
+/* Perfil del usuario */
+ul {
+    list-style: none;
+    margin-bottom: 20px;
+}
+
+ul li {
+    background-color: #fff;
+    padding: 10px 15px;
+    margin-bottom: 8px;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+/* Enlaces de navegación */
+p > a {
+    margin-right: 15px;
+    font-weight: bold;
+}
+
+/* Título de rutina */
+h2 {
+    margin-top: 25px;
+    margin-bottom: 15px;
+    color: #0077cc;
+    text-align: center;
+}
+
+/* Lista de ejercicios */
+ul.rutina-list li {
+    display: flex;
+    justify-content: space-between;
+    background-color: #e6f0fa;
+    padding: 10px 15px;
+    margin-bottom: 10px;
+    border-radius: 8px;
+}
+
+ul.rutina-list li strong {
+    color: #0077cc;
+}
+
+/* Mensajes de aviso */
+p {
+    margin-bottom: 15px;
+}
+
+p.warning {
+    color: #d9534f;
+    font-weight: bold;
+}
+
+/* Botones */
+button, input[type="submit"] {
+    background-color: #0077cc;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+button:hover, input[type="submit"]:hover {
+    background-color: #005fa3;
+}
+
+/* Formularios */
+form {
+    max-width: 500px;
+    margin: 0 auto 20px auto;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+form label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+form input, form textarea, form select {
+    width: 100%;
+    padding: 8px 10px;
+    margin-bottom: 15px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+}
+
+/* Footer opcional */
+footer {
+    text-align: center;
+    margin-top: 40px;
+    font-size: 0.9rem;
+    color: #666;
+}

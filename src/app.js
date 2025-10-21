@@ -8,7 +8,6 @@ import authRoutes from "./routes/authRoutes.js";
 import rutinasRoutes from "./routes/rutinasRoutes.js";
 import profileRoutes from "./routes/profileRoutes.js";
 import { decodeUserToLocals } from "./middlewares/auth.js";
-
 dotenv.config();
 
 const __filename = fileURLToPath(import.meta.url);

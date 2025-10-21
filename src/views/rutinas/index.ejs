@@ -1,33 +1,43 @@
 <!DOCTYPE html>
 <html lang="es">
-
 <head>
     <meta charset="UTF-8" />
     <title>Mis Rutinas</title>
 </head>
 
 <body>
-    <h1>Rutina de <%= user.username %>
-    </h1>
-    <p><a href="/perfil">Mi perfil</a> | <a href="/rutinas/editar">Editar rutina</a> | <a href="/logout">Cerrar
-            sesión</a></p>
+    <h1>Rutina de <%= user.username %></h1>
+    <p>
+        <a href="/rutinas/editar">Editar rutina</a> |
+        <a href="/logout">Cerrar sesión</a>
+    </p>
 
-    <% if (rutina) { %>
-        <h2>
-            <%= rutina.titulo %>
-        </h2>
+    <% if (perfil) { %>
         <ul>
-            <% rutina.items.forEach(item=> { %>
-                <li><strong>
-                        <%= item.dia %>:
-                    </strong>
-                    <%= item.ejercicio %>
-                </li>
-                <% }) %>
-        </ul>
-        <% } else { %>
-            <p>Aún no tienes rutina.</p>
-            <% } %>
-</body>
+            <li>Edad: <%= perfil.edad || "Sin edad" %></li>
+            <li>Objetivo: <%= perfil.objetivo || "Sin objetivo" %></li>
+            <p>Configura tu edad y objetivo en: <a href="/perfil">perfil</a></p>
 
+        </ul>
+    <% } else { %>
+        <p>Configura tu edad y objetivo en: <a href="/perfil">perfil</a></p>
+    <% } %>
+<% console.log(rutina) %>
+    <% if (rutina) { %>
+    <h2><%= rutina.titulo %></h2>
+    <ul>
+        <% if (rutina.items && rutina.items.length > 0) { %>
+            <% rutina.items.forEach(item => { %>
+                <li>
+                    <strong><%= item.dia %>:</strong> <%= item.ejercicio %>
+                </li>
+            <% }) %>
+        <% } else { %>
+            <p>Aún no tienes rutina. Créala <a href="/rutinas/editar">aquí</a></p>
+        <% } %>
+    </ul>
+<% } else { %>
+    <p>Aún no tienes rutina. Créala <a href="/rutinas/editar">aquí</a></p>
+<% } %>
+</body>
 </html>
